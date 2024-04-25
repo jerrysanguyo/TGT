@@ -81,4 +81,14 @@ class ParticipantsDataTable extends DataTable
     {
         return 'Participants_' . date('YmdHis');
     }
+
+    public function table()
+    {
+        return $this->builder()->table();
+    }
+    
+    public function scripts()
+    {
+        return $this->builder()->scripts();
+    }
 }

@@ -12,9 +12,26 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        .dt-input{
+            margin-right: 3%;
+        }
+
+        .btn.btn-primary {
+            background-color: #727CF5;
+            border-color: #727CF5;
+        }
+
+        .contestant-img {
+            width:50%;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -70,5 +87,6 @@
             @yield('content')
         </main>
     </div>
+    @stack('scripts')
 </body>
 </html>

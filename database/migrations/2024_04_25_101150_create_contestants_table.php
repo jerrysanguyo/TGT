@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('contestants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('talent');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

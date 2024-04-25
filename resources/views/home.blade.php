@@ -4,13 +4,24 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow border">
+            <div class="d-flex justify-content-between mb-1">
+                <span class="fs-4">List of participants</span>
+                <div class="ms-auto"> 
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Add Contestant
+                    </button>
+                    @include('contestant.create')
+                </div>
+            </div>
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <div class="card shadow border mt-2">
                 <div class="card-body">
-                    <div class="col-lg-12">
-                        <span class="fs-4">List of participants</span>
-                    </div>
                     <div class="col-lg-12 table-responsive">
-                        <table class="table table-striped" id="participant-table">
+                        <table class="table table-striped" id="participants-table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -21,6 +32,42 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($listOfContestant as $contestant)
+                                <tr>
+                                    <td>{{ $contestant->name }}</td>
+                                    <td>{{ $contestant->talent }}</td>
+                                    <td>{{ $contestant->talent }}</td>
+                                    <td>{{ $contestant->talent }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" 
+                                                        href="{{ route('admin.contestant.edit', ['contestant' => $contestant->id]) }}">
+                                                        Update
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" 
+                                                        href="{{ route('admin.contestant.show', ['contestant' => $contestant->id]) }}">
+                                                        View details
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" 
+                                                        href="{{ route('admin.contestant.show', ['contestant' => $contestant->id]) }}">
+                                                        Vote
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -32,7 +79,7 @@
 @push('scripts')
     <script>
     $(document).ready(function() {
-        $('#participant-table').DataTable({
+        $('#participants-table').DataTable({
             "responsive": true,
             "processing": true,
             "serverSide": false,
