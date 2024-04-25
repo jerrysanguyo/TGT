@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UnauthorizedController;
+use App\Http\Middleware\UserRole;
+use App\Http\Middleware\AdminRole;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +27,12 @@ Route::get('/unauthorized', [UnauthorizedController::class, 'index'])->name('una
 
 Route::middleware(['auth', AdminRole::class])->group(function() {
     Route::prefix('admin')->name('admin.')->group(function() {
-
+        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     });
 });
 
 Route::middleware(['auth', UserRole::class])->group(function() {
     Route::prefix('user')->name('user.')->group(function() {
-        Route::get('/dashboard', [HomeController::class, 'userIndex'])->name('dashboard');
+        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     });
 });
