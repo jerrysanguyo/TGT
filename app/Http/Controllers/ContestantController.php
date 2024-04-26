@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contestant;
+use App\Models\Vote;
 use App\Http\Requests\StoreContestantRequest;
 use App\Http\Requests\UpdateContestantRequest;
 
 class ContestantController extends Controller
 {
-    
     public function index()
     {
         //
@@ -17,6 +17,22 @@ class ContestantController extends Controller
     public function create()
     {
         //
+    }
+
+    
+    public function vote(Contestant $contestant) 
+    {
+        $votes = $contestant->votes()
+                        ->where('rated_by', auth()->id())
+                        ->get(); 
+        $userHasVoted = $contestant->votes()
+                        ->where('rated_by', auth()->id())
+                        ->exists();
+        return view('vote.index', compact(
+            'contestant',
+            'userHasVoted',
+            'votes'
+        ));
     }
     
     public function store(StoreContestantRequest $request)

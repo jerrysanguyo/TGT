@@ -15,9 +15,18 @@ class Contestant extends Model
         'created_by',
         'updated_by',
     ];
+    
+    public function votes()
+    {
+        return $this->hasMany(Vote::class, 'contestant_id');
+    }
 
     public static function getAllContestant()
     {
-        return self::all();
+        return self::withCount(['votes as yes_votes' => function ($query) {
+            $query->where('result', 'Yes');
+        }, 'votes as no_votes' => function ($query) {
+            $query->where('result', 'No');
+        }])->get();
     }
 }

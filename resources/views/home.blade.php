@@ -36,8 +36,8 @@
                                 <tr>
                                     <td>{{ $contestant->name }}</td>
                                     <td>{{ $contestant->talent }}</td>
-                                    <td>{{ $contestant->talent }}</td>
-                                    <td>{{ $contestant->talent }}</td>
+                                    <td>{{ $contestant->yes_votes }}</td>
+                                    <td>{{ $contestant->no_votes }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,8 +58,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" 
-                                                        href="{{ route('admin.contestant.show', ['contestant' => $contestant->id]) }}">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('admin.vote', ['contestant' => $contestant->id]) }}">
                                                         Vote
                                                     </a>
                                                 </li>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\DataTables\ParticipantsDataTable;
 use App\Models\Contestant;
+use App\Models\Vote;
 
 class HomeController extends Controller
 {
