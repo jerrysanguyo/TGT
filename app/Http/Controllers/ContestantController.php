@@ -38,15 +38,19 @@ class ContestantController extends Controller
     public function store(StoreContestantRequest $request)
     {
         $validated = $request->validated();
-        $validated['created_by'] = auth()->id();
     
-        if ($request->hasFile('file_name') && $request->file('file_name')->isValid()) {
-            $image = $request->file('file_name');
-            $imageName = $request->input('name') . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('contestant_images', $imageName, 'public');
-            $validated['file_name'] = $imageName;
+        if ($request->hasFile('file_name')) {
+            $file = $request->file('file_name');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $path = 'uploads/';
+            
+            $file->move(public_path($path), $filename);
+            
+            $validated['file_name'] = $path . $filename; 
         }
     
+        $validated['created_by'] = auth()->id();
         Contestant::create($validated);
     
         $redirectRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'superadmin.dashboard';

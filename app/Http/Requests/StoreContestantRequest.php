@@ -16,7 +16,7 @@ class StoreContestantRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'talent' => ['required', 'string'],
-            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg'],
+            'file_name' => ['nullable', 'string'],
         ];
     }
 }

@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             @if(Auth::user()->role === 'admin')
-                <form action="{{ route('admin.contestant.store') }}" method="POST">
+                <form action="{{ route('admin.contestant.store') }}" method="POST" enctype="multipart/form-data">
                     @elseif(Auth::user()->role === 'superadmin')
                     <form action="{{ route('superadmin.contestant.store') }}" method="POST">
             @endif
