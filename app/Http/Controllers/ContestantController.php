@@ -40,14 +40,17 @@ class ContestantController extends Controller
         $validated = $request->validated();
     
         if ($request->hasFile('file_name')) {
-            $file = $request->file('file_name');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $path = 'uploads/';
-            
-            $file->move(public_path($path), $filename);
-            
-            $validated['file_name'] = $path . $filename; 
+            $destination_path = 'contestant';
+            $image = $request->file('file_name');
+            $image_name = $image->getClientOriginalName();
+        
+            try {
+                $path = $request->file('file_name')->storeAs($destination_path, $image_name, 'public');
+                $validated['file_name'] = $image_name;
+            } catch (\Exception $e) {
+                \Log::error("File upload error: " . $e->getMessage());
+                return back()->withErrors('File upload failed.');
+            }
         }
     
         $validated['created_by'] = auth()->id();
