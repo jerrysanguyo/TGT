@@ -30,7 +30,8 @@ class VoteController extends Controller
             'result' => $result
         ]);
         
-        return redirect()->route('admin.vote', ['contestant' => $contestantId])
+        $redirectRoute = auth()->user()->role === 'admin' ? 'admin.vote' : 'superadmin.vote';
+        return redirect()->route($redirectRoute, ['contestant' => $contestantId])
                         ->with('Yes', 'Vote has been submitted!');
     }
 
@@ -46,7 +47,8 @@ class VoteController extends Controller
             'result' => $result
         ]);
         
-        return redirect()->route('admin.vote', ['contestant' => $contestantId])
+        $redirectRoute = auth()->user()->role === 'admin' ? 'admin.vote' : 'superadmin.vote';
+        return redirect()->route($redirectRoute, ['contestant' => $contestantId])
                         ->with('No', 'Vote has been submitted!');
     }
 

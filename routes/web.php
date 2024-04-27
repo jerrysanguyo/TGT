@@ -7,6 +7,7 @@ use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\VoteController;
 use App\Http\Middleware\UserRole;
 use App\Http\Middleware\AdminRole;
+use App\Http\Middleware\superAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,25 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/unauthorized', [UnauthorizedController::class, 'index'])->name('unauthorized');
+
+Route::middleware(['auth', superAdmin::class])->group(function() {
+    Route::prefix('superadmin')->name('superadmin.')->group(function() {
+        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+        
+        Route::resource('/contestant', ContestantController::class);
+        Route::get('/vote/{contestant}', [ContestantController::class, 'vote'])
+            ->name('vote');
+
+        Route::get('/vote/get/{contestant}', [VoteController::class, 'getVotes'])
+            ->name('vote.get');
+
+        Route::POST('/vote/yes/{contestant}', [VoteController::class, 'yesVote'])
+            ->name('vote.yes');
+        Route::POST('/vote/no/{contestant}', [VoteController::class, 'noVote'])
+            ->name('vote.no');
+        Route::resource('vote', VoteController::class);
+    });
+});
 
 Route::middleware(['auth', AdminRole::class])->group(function() {
     Route::prefix('admin')->name('admin.')->group(function() {
@@ -49,5 +69,8 @@ Route::middleware(['auth', AdminRole::class])->group(function() {
 Route::middleware(['auth', UserRole::class])->group(function() {
     Route::prefix('user')->name('user.')->group(function() {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+        Route::resource('/contestant', ContestantController::class);
+        Route::get('/vote/get/{contestant}', [VoteController::class, 'getVotes'])
+        ->name('vote.get');
     });
 });

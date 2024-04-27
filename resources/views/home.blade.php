@@ -6,10 +6,12 @@
         <div class="col-md-8">
             <div class="d-flex justify-content-between mb-1">
                 <span class="fs-4">List of participants</span>
-                <div class="ms-auto"> 
+                <div class="ms-auto">
+                    @if(Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin')
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Add Contestant
                     </button>
+                    @endif
                     @include('contestant.create')
                 </div>
             </div>
@@ -45,24 +47,52 @@
                                             </button>
                                             
                                             <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" 
-                                                        href="{{ route('admin.contestant.edit', ['contestant' => $contestant->id]) }}">
-                                                        Update
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" 
-                                                        href="{{ route('admin.contestant.show', ['contestant' => $contestant->id]) }}">
-                                                        View details
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('admin.vote', ['contestant' => $contestant->id]) }}">
-                                                        Vote
-                                                    </a>
-                                                </li>
+                                                @if(Auth::user()->role === 'admin')
+                                                    <li>
+                                                        <a class="dropdown-item" 
+                                                            href="{{ route('admin.contestant.edit', ['contestant' => $contestant->id]) }}">
+                                                            Update
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" 
+                                                            href="{{ route('admin.contestant.show', ['contestant' => $contestant->id]) }}">
+                                                            View details
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin.vote', ['contestant' => $contestant->id]) }}">
+                                                            Vote
+                                                        </a>
+                                                    </li>
+                                                    @elseif(Auth::user()->role === 'superadmin')
+                                                    <li>
+                                                        <a class="dropdown-item" 
+                                                            href="{{ route('superadmin.contestant.edit', ['contestant' => $contestant->id]) }}">
+                                                            Update
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" 
+                                                            href="{{ route('superadmin.contestant.show', ['contestant' => $contestant->id]) }}">
+                                                            View details
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('superadmin.vote', ['contestant' => $contestant->id]) }}">
+                                                            Vote
+                                                        </a>
+                                                    </li>
+                                                    @else
+                                                    <li>
+                                                        <a class="dropdown-item" 
+                                                            href="{{ route('user.contestant.show', ['contestant' => $contestant->id]) }}">
+                                                            View details
+                                                        </a>
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

@@ -14,9 +14,19 @@
                     </figcaption>
                 </figure>
                 <div class="ms-auto"> 
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
-                        Back
-                    </a>
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
+                            Back
+                        </a>
+                        @elseif(Auth::user()->role === 'superadmin')
+                            <a href="{{ route('superadmin.dashboard') }}" class="btn btn-primary">
+                                Back
+                            </a>
+                            @else
+                                <a href="{{ route('user.dashboard') }}" class="btn btn-primary">
+                                    Back
+                                </a>
+                    @endif()
                 </div>
             </div>
             @if(session('success'))
@@ -30,7 +40,7 @@
             </div>
             <div class="row mt-3">
                 <span class="fs-3">Votes:</span>
-                <div id="voteCards" class="row"> 
+                <div id="voteCards" class="row d-flex justify-content-evenly"> 
 
                 </div>
             </div>
@@ -40,23 +50,33 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function fetchVotes() {
+        var url;
+        
+        if ("{{ Auth::user()->role }}" === 'admin') {
+            url = "{{ route('admin.vote.get', $contestant->id) }}";
+        } else if ("{{ Auth::user()->role }}" === 'superadmin') {
+            url = "{{ route('superadmin.vote.get', $contestant->id) }}";
+        } else {
+            url = "{{ route('user.vote.get', $contestant->id) }}";
+        }
+
         $.ajax({
-            url: "{{ route('admin.vote.get', $contestant->id) }}", 
+            url: url,
             type: "GET",
             success: function(data) {
                 var cardsHtml = '';
                 if (Array.isArray(data)) {
                     data.forEach(function(vote) {
-                        cardsHtml += '<div class="col-lg-3"><div class="card border-0 shadow"><div class="card-body">';
+                        cardsHtml += '<div class="col-lg-3"><div class="card border-0 shadow"><div class="card-body"><div class="d-flex justify-content-center"><div class="text-center">';
                         if (vote.result === 'Yes') {
-                            cardsHtml += '<img src="{{ asset('image/yes.png') }}" alt="Yes" class="img-fluid" style="width:40%;">' + '<br>';
-                            cardsHtml += '<audio src="{{ asset('audio/yes.mp3') }}" autoplay></audio>';
+                            cardsHtml += '<img src="{{ asset('image/yes.png') }}" alt="Yes" class="img-fluid" style="width:60%;">' + '<br>';
+                            // cardsHtml += '<audio src="{{ asset('audio/yes.mp3') }}" autoplay></audio>';
                         } else {
-                            cardsHtml += '<img src="{{ asset('image/No.png') }}" alt="Yes" class="img-fluid" style="width:40%;">' + '<br>';
-                            cardsHtml += '<audio src="{{ asset('audio/wrong.mp3') }}" autoplay></audio>';
+                            cardsHtml += '<img src="{{ asset('image/No.png') }}" alt="Yes" class="img-fluid" style="width:60%;">' + '<br>';
+                            // cardsHtml += '<audio src="{{ asset('audio/wrong.mp3') }}" autoplay></audio>';
                         }
-                        cardsHtml += '<strong>Voted By:</strong> ' + (vote.user ? vote.user.name : 'Unknown User') + '<br>';
-                        cardsHtml += '</div></div></div>';
+                        cardsHtml += '<div class="mt-3"></div><span class="fs-4">' +(vote.user ? vote.user.name : 'Unknown User') + '</span></div><br>';
+                        cardsHtml += '</div></div></div></div></div>';
                     });
                 } else {
                     console.error('Data is not an array:', data);

@@ -12,6 +12,7 @@ class Contestant extends Model
     protected $fillable=[
         'name',
         'talent',
+        'file_name',
         'created_by',
         'updated_by',
     ];

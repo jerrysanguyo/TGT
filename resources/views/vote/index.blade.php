@@ -7,9 +7,19 @@
             <div class="d-flex justify-content-between mb-1">
                 <span class="fs-1">{{ $contestant->name }}</span>
                 <div class="ms-auto"> 
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
-                        Back
-                    </a>
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
+                            Back
+                        </a>
+                        @elseif(Auth::user()->role === 'superadmin')
+                            <a href="{{ route('superadmin.dashboard') }}" class="btn btn-primary">
+                                Back
+                            </a>
+                            @else
+                                <a href="{{ route('user.dashboard') }}" class="btn btn-primary">
+                                    Back
+                                </a>
+                    @endif()
                 </div>
             </div>
             @if(session('Yes'))
@@ -46,7 +56,11 @@
                                         <h1 class="modal-title fs-5" id="exampleModalLabel">Vote for YES {{ $contestant->name }}</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
+                                    @if(Auth::user()->role === 'admin')
                                     <form action="{{ route('admin.vote.yes', ['contestant' => $contestant->id]) }}" method="post">
+                                        @elseif(Auth::user()->role === 'superadmin')
+                                        <form action="{{ route('superadmin.vote.yes', ['contestant' => $contestant->id]) }}" method="post">
+                                    @endif
                                         @csrf
                                         <div class="modal-body">
                                             <div class="col-lg-12 col-md-12">

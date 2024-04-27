@@ -39,11 +39,18 @@ class ContestantController extends Controller
     {
         $validated = $request->validated();
         $validated['created_by'] = auth()->id();
-
+    
+        if ($request->hasFile('file_name') && $request->file('file_name')->isValid()) {
+            $image = $request->file('file_name');
+            $imageName = $request->input('name') . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('contestant_images', $imageName, 'public');
+            $validated['file_name'] = $imageName;
+        }
+    
         Contestant::create($validated);
-
-        return redirect()->route('admin.dashboard')
-                        ->with('success', 'Contestant added successfully.');
+    
+        $redirectRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'superadmin.dashboard';
+        return redirect()->route($redirectRoute)->with('success', 'Contestant added successfully.');
     }
     
     public function show(Contestant $contestant)
@@ -67,15 +74,15 @@ class ContestantController extends Controller
     
         $contestant->update($validated);
     
-        return redirect()->route('admin.dashboard')
-                        ->with('success', 'Contestant updated successfully.');
+        $redirectRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'superadmin.dashboard';
+        return redirect()->route($redirectRoute)->with('success', 'Contestant updated successfully.');
     }
     
     public function destroy(Contestant $contestant)
     {
         $deleted = $contestant->delete();
-
-        return redirect()->route('admin.dashboard')
-                        ->with('success', 'Contestant deleted successfully.');
+    
+        $redirectRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'superadmin.dashboard';
+        return redirect()->route($redirectRoute)->with('success', 'Contestant deleted successfully.');
     }
 }
