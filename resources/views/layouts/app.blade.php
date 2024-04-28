@@ -47,7 +47,23 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @if(Auth::user()->role === 'superadmin')
+                            <li class="nav-item">
+                                <a href="{{ route('superadmin.dashboard') }}" class="nav-link">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('superadmin.account.index') }}" class="nav-link">
+                                    Account
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('superadmin.votes.index') }}" class="nav-link">
+                                    Votes
+                                </a>
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

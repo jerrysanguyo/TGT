@@ -28,6 +28,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function getAllAccount()
+    {
+        return self::all();
+    }
+
     public function votes()
     {
         return $this->hasMany(Vote::class, 'rated_by');
