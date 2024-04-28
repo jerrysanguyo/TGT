@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Contestant;
 use App\Models\Vote;
 use App\Http\Requests\StoreContestantRequest;
@@ -34,30 +37,45 @@ class ContestantController extends Controller
             'votes'
         ));
     }
-    
-    public function store(StoreContestantRequest $request)
+
+    public function store(Request $request) 
     {
-        $validated = $request->validated();
+        $rules = [
+            'name' => ['string', 'required', 'max:255'],
+            'talent' => ['string', 'required', 'max:255'],
+            'file_name' => ['required', 'file', 'mimes:jpeg,jpg,png,webp'],
+        ];
     
-        if ($request->hasFile('file_name')) {
-            $destination_path = 'contestant';
-            $image = $request->file('file_name');
-            $image_name = $image->getClientOriginalName();
-        
-            try {
-                $path = $request->file('file_name')->storeAs($destination_path, $image_name, 'public');
-                $validated['file_name'] = $image_name;
-            } catch (\Exception $e) {
-                \Log::error("File upload error: " . $e->getMessage());
-                return back()->withErrors('File upload failed.');
-            }
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
     
-        $validated['created_by'] = auth()->id();
-        Contestant::create($validated);
-    
-        $redirectRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'superadmin.dashboard';
-        return redirect()->route($redirectRoute)->with('success', 'Contestant added successfully.');
+        try 
+        {
+            if ($request->hasFile('file_name')) {
+                $file = $request->file('file_name');
+                $fileImage = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public/contestant', $fileImage);
+            
+                Contestant::create([
+                    'name' => $request->name,
+                    'talent' => $request->talent,
+                    'file_name' => $fileImage,
+                    'created_by' => auth()->id(),
+                ]);
+            
+                $redirectRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'superadmin.dashboard';
+                return redirect()->route($redirectRoute)->with('success', 'Contestant updated successfully.');
+            } else {
+                return response()->json(['error' => 'File upload failed'], 500);
+            }
+        } 
+        catch (\Exception $e) 
+        {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
     
     public function show(Contestant $contestant)
@@ -76,8 +94,22 @@ class ContestantController extends Controller
     
     public function update(UpdateContestantRequest $request, Contestant $contestant)
     {
-        $validated = $request->validated();  
-        $validated['updated_by'] = auth()->id();  
+        $validated = $request->validated();
+        
+        if ($request->hasFile('file_name')) {
+            $oldFile = 'public/contestant/' . $contestant->file_name;
+            if (Storage::exists($oldFile)) {
+                Storage::delete($oldFile);
+            }
+    
+            $file = $request->file('file_name');
+            $fileImage = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/contestant', $fileImage);
+    
+            $validated['file_name'] = $fileImage;
+        }
+    
+        $validated['updated_by'] = auth()->id();
     
         $contestant->update($validated);
     
@@ -87,6 +119,12 @@ class ContestantController extends Controller
     
     public function destroy(Contestant $contestant)
     {
+        $filePath = 'public/contestant/' . $contestant->file_name;
+    
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
+        }
+    
         $deleted = $contestant->delete();
     
         $redirectRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'superadmin.dashboard';

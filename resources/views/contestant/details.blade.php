@@ -35,8 +35,7 @@
                 </div>
             @endif
             <div class="d-flex justify-content-center">
-                <img src="https://blog.hubspot.com/hs-fs/hubfs/small-business-website_15.webp?width=595&height=400&name=small-business-website_15.webp" 
-                    alt="" class="img-fluid contestant-img shadow border-0 rounded">
+                <img src="{{ asset('storage/contestant/' . $contestant->file_name) }}" alt="Contestant image" class="img-fluid contestant-img shadow border-0 rounded">
             </div>
             <div class="row mt-3">
                 <span class="fs-3">Votes:</span>

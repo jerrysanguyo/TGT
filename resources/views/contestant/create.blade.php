@@ -8,7 +8,7 @@
             @if(Auth::user()->role === 'admin')
                 <form action="{{ route('admin.contestant.store') }}" method="POST" enctype="multipart/form-data">
                     @elseif(Auth::user()->role === 'superadmin')
-                    <form action="{{ route('superadmin.contestant.store') }}" method="POST">
+                    <form action="{{ route('superadmin.contestant.store') }}" method="POST" enctype="multipart/form-data">
             @endif
             @csrf
                 <div class="modal-body">
@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-lg-12 col-md-12">
                         <label for="file_name" class="form-label">Picture:</label>
-                        <input type="file" name="file_name" id="file_name" class="form-control">
+                        <input type="file" name="file_name" id="file_name" class="form-control"  accept="image/jpeg, image/png, image/webp">
                     </div>
                 </div>
                 <div class="modal-footer">
