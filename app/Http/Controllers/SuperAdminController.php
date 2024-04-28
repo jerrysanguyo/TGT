@@ -98,8 +98,49 @@ class SuperAdminController extends Controller
     }
 
     // VOTE -----------------------------------------------------------------------------------------------------
-    public function indexVotes()
+    public function indexVote(superAdminDataTable $DataTable)
     {
-        return view('superadmin.Votes.index');
+        $listOfVotes = Vote::getAllVote();
+        return $DataTable->render('superadmin.vote.index', compact(
+            'listOfVotes',
+            'DataTable',
+        ));
+    }
+
+    public function showVote(Vote $vote)
+    {
+        return view('superadmin.vote.show', compact('vote'));
+    }
+
+    public function updateVote(Request $request, Vote $vote)
+    {
+        $rules = [
+            'result' => ['required', 'string', 'in:Yes,No'],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        
+        try 
+        {
+            $vote->update([
+                'result' => $request->result,
+            ]);
+            
+            return redirect()->route('superadmin.vote.index')->with('success', 'vote updated successfully.');
+        } 
+        catch (\Exception $e) 
+        {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function destroyVote(Vote $vote)
+    {
+        $deleted = $vote->delete();
+        return redirect()->rotue('superadmin.vote.index')->with('success', 'Vote deleted successfully.');
     }
 }

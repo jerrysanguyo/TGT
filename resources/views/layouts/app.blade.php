@@ -59,7 +59,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('superadmin.votes.index') }}" class="nav-link">
+                                <a href="{{ route('superadmin.vote.index') }}" class="nav-link">
                                     Votes
                                 </a>
                             </li>

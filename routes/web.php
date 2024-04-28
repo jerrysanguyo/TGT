@@ -57,8 +57,14 @@ Route::middleware(['auth', superAdmin::class])->group(function() {
         Route::delete('/account/destroy/{user}', [SuperAdminController::class, 'destroyAccount'])
             ->name('account.destroy');
         // vote
-        Route::get('/votes', [SuperAdminController::class, 'indexVotes'])
-            ->name('votes.index');
+        Route::get('/vote', [SuperAdminController::class, 'indexVote'])
+            ->name('vote.index');
+        Route::get('/vote/show/{vote}', [SuperAdminController::class, 'showVote'])
+            ->name('vote.show');
+        Route::put('vote/update/{vote}', [SuperAdminController::class, 'updateVote'])
+            ->name('vote.update');
+        Route::delete('vote/destroy/{vote}', [SuperAdminController::class, 'destroyVote'])
+            ->name('vote.destroy');
     });
 });
 
