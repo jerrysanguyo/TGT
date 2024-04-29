@@ -34,7 +34,7 @@
         }
 
         body {
-            background: url('{{ asset("image/taguig.webp") }}') no-repeat center center fixed; 
+            background: url('{{ asset("image/bgwol.png") }}') no-repeat center center fixed; 
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;

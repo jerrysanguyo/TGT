@@ -14,11 +14,11 @@
         <!-- Styles -->
         <style>
         body {
-            background: url('{{ asset("image/bgwospace.webp") }}') no-repeat center center fixed; 
-            -webkit-background-size: contain;
-            -moz-background-size: contain;
-            -o-background-size: contain;
-            background-size: contain;
+            background: url('{{ asset("image/bgwl.png") }}') no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
         </style>
     </head>

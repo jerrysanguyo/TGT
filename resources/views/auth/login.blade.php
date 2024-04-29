@@ -15,6 +15,23 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        .btn.btn-primary {
+            background-color: #727CF5;
+            border-color: #727CF5;
+        }
+
+        .contestant-img {
+            width:40%;
+        }
+        body {
+            background: url('{{ asset("image/bg.png") }}') no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-3">
