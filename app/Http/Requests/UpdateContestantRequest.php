@@ -15,7 +15,6 @@ class UpdateContestantRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'talent' => ['required', 'string', 'max:255'],
-            'file_name' => ['required', 'file', 'mimes:jpeg,jpg,png,webp'],
         ];
     }
 }

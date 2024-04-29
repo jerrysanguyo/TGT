@@ -44,13 +44,6 @@
                             <label for="talent" class="form-label">Talent:</label>
                             <input type="text" name="talent" id="talent" class="form-control" value="{{ $contestant->talent }}">
                         </div>
-                        <div class="col-lg-12 col-md-12">
-                            <label for="file_name" class="form-label">Picture:</label>
-                            <input type="file" name="file_name" id="file_name" class="form-control">
-                            <div class="mt-3">
-                                <img src="{{ asset('storage/contestant/' . $contestant->file_name) }}" alt="Contestant image" class="img-fluid contestant-img shadow border-0 rounded">
-                            </div>
-                        </div>
                         <div class="mt-3">
                             <input type="submit" value="Submit details" class="btn btn-primary">
                         </div>
