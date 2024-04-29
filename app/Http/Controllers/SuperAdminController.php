@@ -141,6 +141,6 @@ class SuperAdminController extends Controller
     public function destroyVote(Vote $vote)
     {
         $deleted = $vote->delete();
-        return redirect()->rotue('superadmin.vote.index')->with('success', 'Vote deleted successfully.');
+        return redirect()->route('superadmin.vote.index')->with('success', 'Vote deleted successfully.');
     }
 }

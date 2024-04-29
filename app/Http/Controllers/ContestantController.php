@@ -43,7 +43,7 @@ class ContestantController extends Controller
         $rules = [
             'name' => ['string', 'required', 'max:255'],
             'talent' => ['string', 'required', 'max:255'],
-            'file_name' => ['required', 'file', 'mimes:jpeg,jpg,png,webp'],
+            'file_name' => ['nullable', 'file', 'mimes:jpeg,jpg,png,webp'],
         ];
     
         $validator = Validator::make($request->all(), $rules);
