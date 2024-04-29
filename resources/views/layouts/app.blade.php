@@ -32,7 +32,7 @@
             width:40%;
         }
         body {
-            background: url('{{ asset("image/bg.png") }}') no-repeat center center fixed; 
+            background: url('{{ asset("image/bg3.webp") }}') no-repeat center center fixed; 
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;

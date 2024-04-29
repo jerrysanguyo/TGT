@@ -92,6 +92,6 @@ Route::middleware(['auth', UserRole::class])->group(function() {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
         Route::resource('/contestant', ContestantController::class);
         Route::get('/vote/get/{contestant}', [VoteController::class, 'getVotes'])
-        ->name('vote.get');
+            ->name('vote.get');
     });
 });

@@ -12,9 +12,11 @@ class VoteController extends Controller
     public function getVotes(Contestant $contestant)
     {
         $votes = $contestant->votes()
-                            ->with('user')
-                            ->get();
-
+                            ->with(['user' => function($query) {
+                                $query->select('id', 'name'); 
+                            }])
+                            ->get(['id', 'result', 'rated_by']);
+    
         return response()->json($votes);
     }
     

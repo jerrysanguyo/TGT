@@ -34,7 +34,7 @@
         }
 
         body {
-            background: url('{{ asset("image/bgwol.png") }}') no-repeat center center fixed; 
+            background: url('{{ asset("image/bg2.webp") }}') no-repeat center center fixed; 
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -44,14 +44,14 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-1">
         <div class="col-md-8">
-            <div class="d-flex justify-content-between mb-1">
+            <div class="d-flex justify-content-between">
                 <figure>
                     <blockquote class="blockquote">
                         <p  class="fs-3">{{ $contestant->name }}</p>
                     </blockquote>
-                    <figcaption class="blockquote-footer">
+                    <figcaption class="blockquote-footer fs-5">
                         {{ $contestant->talent }}
                     </figcaption>
                 </figure>
@@ -71,18 +71,60 @@
                     @endif()
                 </div>
             </div>
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <div class="d-flex justify-content-center">
-                <img src="{{ asset('storage/contestant/' . $contestant->file_name) }}" alt="Contestant image" class="img-fluid contestant-img shadow border-0 rounded">
-            </div>
-            <div class="row mt-3">
-                <span class="fs-3">Votes:</span>
-                <div id="voteCards" class="row d-flex justify-content-evenly"> 
 
+            <div class="row">
+                <div class="col-md-3" id="voteCard5">
+                    <div class="card border-0 shadow">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center">
+                                    <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
+                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3" id="voteCard6">
+                    <div class="card border-0 shadow">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center">
+                                    <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
+                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="col-md-3" id="voteCard7">
+                    <div class="card border-0 shadow">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center">
+                                    <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
+                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="col-md-3" id="voteCard8">
+                    <div class="card border-0 shadow">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center">
+                                    <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
+                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,7 +134,7 @@
 <script>
     function fetchVotes() {
         var url;
-        
+
         if ("{{ Auth::user()->role }}" === 'admin') {
             url = "{{ route('admin.vote.get', $contestant->id) }}";
         } else if ("{{ Auth::user()->role }}" === 'superadmin') {
@@ -101,29 +143,26 @@
             url = "{{ route('user.vote.get', $contestant->id) }}";
         }
 
+        console.log("Fetching votes from URL:", url); // Debug URL
+
         $.ajax({
             url: url,
             type: "GET",
             success: function(data) {
-                var cardsHtml = '';
+                console.log("Received data:", data); // Debug data received
+
                 if (Array.isArray(data)) {
                     data.forEach(function(vote) {
-                        cardsHtml += '<div class="col-lg-3"><div class="card border-0 shadow"><div class="card-body"><div class="d-flex justify-content-center"><div class="text-center">';
-                        if (vote.result === 'Yes') {
-                            cardsHtml += '<img src="{{ asset('image/yes.png') }}" alt="Yes" class="img-fluid" style="width:60%;">' + '<br>';
-                            // cardsHtml += '<audio src="{{ asset('audio/yes.mp3') }}" autoplay></audio>';
-                        } else {
-                            cardsHtml += '<img src="{{ asset('image/No.png') }}" alt="Yes" class="img-fluid" style="width:60%;">' + '<br>';
-                            // cardsHtml += '<audio src="{{ asset('audio/wrong.mp3') }}" autoplay></audio>';
-                        }
-                        cardsHtml += '<div class="mt-3"></div><span class="fs-4">' +(vote.user ? vote.user.name : 'Unknown User') + '</span></div><br>';
-                        cardsHtml += '</div></div></div></div></div>';
+                        var cardSelector = '#voteCard' + vote.rated_by; // Use rated_by as ID for card
+                        var cardImage = vote.result === 'Yes' ? "{{ asset('image/yes.webp') }}" : "{{ asset('image/no.webp') }}";
+                        var userName = vote.user ? vote.user.name : 'Unknown User';
+
+                        $(cardSelector + ' img').attr('src', cardImage);
+                        $(cardSelector + ' .voter-name').text(userName);
                     });
                 } else {
                     console.error('Data is not an array:', data);
-                    cardsHtml = '<div class="col-12"><p>No votes data available or data format is incorrect.</p></div>';
                 }
-                $('#voteCards').html(cardsHtml);
             },
             error: function(xhr, status, err) {
                 console.error('Error fetching votes:', xhr, status, err);

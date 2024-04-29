@@ -14,7 +14,7 @@
         <!-- Styles -->
         <style>
         body {
-            background: url('{{ asset("image/bgwl.png") }}') no-repeat center center fixed; 
+            background: url('{{ asset("image/bg4.webp") }}') no-repeat center center fixed; 
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
