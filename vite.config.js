@@ -6,7 +6,7 @@ export default defineConfig({
         host: '0.0.0.0',  // Listen on all network interfaces
         port: 3000,        // Default port for Vite
         hmr: {
-            host: '192.168.68.105',  // Replace with your actual IP
+            host: '192.168.68.105',  // Replace actual IP
         }
     },
     plugins: [
