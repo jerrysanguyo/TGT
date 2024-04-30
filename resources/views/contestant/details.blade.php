@@ -79,7 +79,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="text-center">
                                     <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
-                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                    <div class="voter-name fs-4 mt-3">Judge 1</div>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="text-center">
                                     <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
-                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                    <div class="voter-name fs-4 mt-3">Judge 2</div>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="text-center">
                                     <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
-                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                    <div class="voter-name fs-4 mt-3">Judge 3</div>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="text-center">
                                     <img src="{{ asset('image/default.webp') }}" alt="Result" class="img-fluid">
-                                    <div class="voter-name fs-4 mt-3">Voter Name</div>
+                                    <div class="voter-name fs-4 mt-3">Judge 4</div>
                                 </div>
                             </div>
                         </div>

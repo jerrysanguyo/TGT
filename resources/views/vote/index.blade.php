@@ -34,16 +34,16 @@
                 </div>
                 <audio src="{{ asset('audio/wrong.mp3') }}" autoplay></audio>
             @endif
-            <div class="d-flex justify-content-center">
+            <!-- <div class="d-flex justify-content-center">
                 <img src="{{ asset('storage/contestant/' . $contestant->file_name) }}" alt="Contestant image" class="img-fluid contestant-img shadow border-0 rounded">
-            </div>
+            </div> -->
             <div class="row mt-5">
                 @if(!$userHasVoted)
                     <div class="col-lg-6">
                         <!-- Button trigger modal -->
                         <div class="d-flex justify-content-center">
                             <button type="button" class="btn btn-success shadow border-0" data-bs-toggle="modal" data-bs-target="#YesModal" style="padding:100px;">
-                                <i class="fa-regular fa-thumbs-up fs-1" style="color: #ffffff;"></i>
+                                <i class="fa-solid fa-check fs-1" style="color: #ffffff;"></i>
                             </button>
                         </div>
 
@@ -80,7 +80,7 @@
                         <!-- Button trigger modal -->
                         <div class="d-flex justify-content-center">
                             <button type="button" class="btn btn-danger shadow border-0" data-bs-toggle="modal" data-bs-target="#NoModal" style="padding:100px;">
-                                <i class="fa-regular fa-thumbs-down fs-1" style="color: #ffffff;"></i>
+                                <i class="fa-solid fa-xmark fs-1" style="color: #ffffff;"></i>
                             </button>
                         </div>
 
